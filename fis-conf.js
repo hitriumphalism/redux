@@ -6,15 +6,15 @@
 
 fis
   .config.set('project.watch.usePolling',true)
-  .set('settings.postprocessor.rjy-postcss',{
-      addPlugins: function () {
-        var pl = require('autoprefixer');
-        pl({ browsers: ['> 3% in CN'] });
+  // .set('settings.postprocessor.rjy-postcss',{
+  //     addPlugins: function () {
+  //       var pl = require('autoprefixer');
+  //       pl({ browsers: ['> 3% in CN'] });
         
-        var plugins = [pl];
-        return plugins;
-      }
-    })
+  //       var plugins = [pl];
+  //       return plugins;
+  //     }
+  //   })
   .set('project.files', '/src/index.html')
   .set('project.ignore', [
     '/output/**',
@@ -46,28 +46,25 @@ fis
       fis.plugin('js-require-css')
     ]
   })
-  // .match('/src/*.{css,less,sass,scss}', {
-  //   postprocessor: fis.plugin('rjy-postcss')
-  // })
   .match('/**/*.less', {
-    // postprocessor: fis.plugin('less-autoprefix', {}),
+    postprocessor: fis.plugin('less-autoprefix', {}),
     rExt: '.css',
     parser: fis.plugin('less-2.x', {
     })
   })
-  .match('/**/*.scss', {
-    rExt: '.css',
-    parser: fis.plugin('node-sass', {
-    })
-  })
-  .match('/**/*.{css,less,sass,scss}', {
-    postprocessor: fis.plugin('rjy-postcss')
-  })
+  // .match('/**/*.scss', {
+  //   rExt: '.css',
+  //   parser: fis.plugin('node-sass', {
+  //   })
+  // })
+  // .match('/**/*.{css,less,sass,scss}', {
+  //   postprocessor: fis.plugin('rjy-postcss')
+  // })
   .hook('commonjs', {
     baseUrl: './src/modules',
     extList: ['.js', '.jsx']
   })
-  .match('{/**/*.js,/**/*.jsx}', {
+  .match('{/src,/node_modules}/**/*.{js,jsx}', {
     parser: fis.plugin('babel-5.x', {
       sourceMaps: true,
       optional: ["es7.decorators", "es7.classProperties"]
